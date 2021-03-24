@@ -4,6 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 CURD Xsismart
 
+### Install database locally
+Use mongorestore 
+
 ### Starting locally
 
 Runs the app backend in the development mode.<br />
