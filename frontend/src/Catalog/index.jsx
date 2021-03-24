@@ -27,10 +27,13 @@ export default class index extends React.Component {
         const { List } = this.state
         return (
             <div>
-                <div class="col-sm-3 card card-widget widget-user">
+                {
+                            List.map(data => {
+                                return (
+                                    <div class="col-sm-3 card card-widget widget-user">
                     <div class="widget-user-header bg-info">
-                        <h3 class="widget-user-username">Alexander Pierce</h3>
-                        <h5 class="widget-user-desc">Founder &amp; CEO</h5>
+                        <h3 class="widget-user-username">{data.name}</h3>
+                        <h5 class="widget-user-desc">{data.price}</h5>
                     </div>
                     <div class="widget-user-image">
                         <img class="img-circle elevation-2" src={Photo} alt="User Avatar" />
@@ -58,6 +61,9 @@ export default class index extends React.Component {
 
                     </div>
                 </div>
+                                )
+                            })
+                        }                
             </div>
 
         )
