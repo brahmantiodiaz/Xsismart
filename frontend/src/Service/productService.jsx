@@ -97,6 +97,22 @@ const productService ={
             }
         })
         return result
+    },
+    getAlldata : () =>{
+        const result = axios.get(config.apiUrl + '/product')
+        .then(respon =>{
+            return{
+                success : respon.data.success,
+                result : respon.data.result
+            }
+        })
+        .catch(error => {
+            return {
+                success:false,
+                error:error
+            }
+        })
+        return result
     }
 }
 
