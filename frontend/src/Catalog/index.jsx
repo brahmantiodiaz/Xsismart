@@ -1,5 +1,5 @@
 import React from 'react'
-import CatalogForm from './catalogform'
+import Counting from './counting'
 import productService from '../Service/productService'
 
 export default class index extends React.Component {
@@ -30,7 +30,7 @@ export default class index extends React.Component {
                     {
                         List.map(data => {
                             return (
-                             <CatalogForm data={data}/>   
+                             <Counting data={data}/>   
                             )
                         })
                     }
