@@ -22,12 +22,13 @@ export default class catalogForm extends React.Component {
                 "qty":qty,
                 "total":data.price
             }
+            
             ListCart.push(addProduct)    
         }else{
             ListCart[index].qty += 1
             ListCart[index].total += data.price
         }
-        
+        console.log(addProduct)
         const {count} = this.state
         this.setState({
             count : count+1
