@@ -69,6 +69,7 @@ module.exports = exports = function (server, config) {
             }
             dbo = db.db(config.dbname)
             await dbo.collection('product').aggregate([
+                {$match : {"active":true}},
                 {
                     $group :{
                         "_id":null,
