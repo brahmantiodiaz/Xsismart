@@ -9,19 +9,54 @@ export default class catalogForm extends React.Component {
         }
     }
     incrementFunction = () => {
+        const {data,ListCart}=this.props
+        let qty=0
+        let addProduct ={}
+        let index = ListCart.findIndex(x=>x._id === data._id)
+        if (index==-1) {
+            qty+=1
+            addProduct={
+                "_id":data._id,
+                "nama":data.name,
+                "price":data.price,
+                "qty":qty,
+                "total":data.price
+            }
+            ListCart.push(addProduct)    
+        }else{
+            ListCart[index].qty += 1
+            ListCart[index].total += data.price
+        }
+        
         const {count} = this.state
         this.setState({
             count : count+1
         })
+        this.props.incrementTotal()
+        this.props.incrementPrice(this.props.data.price)
     }
 
     decrementFunction = () => {
+        const {data,ListCart}=this.props
+        let index = ListCart.findIndex(x=>x._id === data._id)
+        if (index!=-1) {
+            ListCart[index].qty -= 1
+            ListCart[index].total -= data.price    
+        }
+        if(ListCart[index].qty == 0){
+            ListCart.splice(index,1)
+        }
+        console.log(ListCart)
         const {count} = this.state
         if (count!=0) {
         this.setState({
             count : count-1
-        })   
+        })
+        this.props.decrementTotal()
+        this.props.decrementPrice(this.props.data.price)   
         }
+        
+        
     }
 
     render() {
