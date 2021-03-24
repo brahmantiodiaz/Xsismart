@@ -1,6 +1,7 @@
 import React from 'react'
 import Counting from './counting'
 import productService from '../Service/productService'
+import Checkout from './checkout'
 
 export default class index extends React.Component {
     constructor() {
@@ -9,7 +10,8 @@ export default class index extends React.Component {
             List: [],
             ListCart:[],
             TotalProduct:0,
-            EstimatePrice:0
+            EstimatePrice:0,
+            ShowModal:false
         }
     }
     loadList = async () => {
@@ -56,8 +58,21 @@ export default class index extends React.Component {
         this.loadList()
     }
 
+    ModalHandler = () => {
+        this.setState({
+            ShowModal: true,
+            // Model: this.VariantModel
+        })
+    }
+
+    cancelHandler = () => {
+        this.setState({
+            ShowModal: false
+        })
+    }
+
     render() {
-        const { List,TotalProduct,EstimatePrice,ListCart } = this.state
+        const { List,TotalProduct,EstimatePrice,ListCart,ShowModal } = this.state
         return (
             <div>
                 <div class = "row">
@@ -83,8 +98,7 @@ export default class index extends React.Component {
           </div>
           <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box bg-warning">
-              <span class="info-box-icon bg-danger"><i class="fas fa-cash-register"></i></span>
-
+              <span class="info-box-icon bg-danger" onClick={this.ModalHandler}><i class="fas fa-shopping-cart"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text font-weight-bold">Checkout</span>
                 <span class="info-box-number">0</span>
@@ -107,7 +121,12 @@ export default class index extends React.Component {
                         })
                     }
                 </div>
-                
+                <Checkout ShowModal={ShowModal}
+                cancelHandler={this.cancelHandler}
+                ListCart={ListCart}
+                EstimatePrice={EstimatePrice}
+                TotalProduct={TotalProduct}
+                />
             </div>
         )
     }

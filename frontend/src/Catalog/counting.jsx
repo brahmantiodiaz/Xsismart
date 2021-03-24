@@ -1,7 +1,7 @@
 import React from 'react'
 import Photo from '../img/user3-128x128.jpg'
 
-export default class catalogForm extends React.Component {
+export default class counting extends React.Component {
     constructor() {
         super()
         this.state = {
