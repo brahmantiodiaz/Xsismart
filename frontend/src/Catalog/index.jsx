@@ -1,7 +1,7 @@
 import React from 'react'
 import catalogForm from './catalogform'
 import CatalogForm from './catalogform'
-import Photo from '../dist/img/user3-128x128.jpg'
+import Photo from '../img/user3-128x128.jpg'
 
 export default class index extends React.Component {
     constructor() {
