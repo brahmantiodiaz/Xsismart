@@ -2,27 +2,39 @@ import React from 'react'
 import Counting from './counting'
 import productService from '../Service/productService'
 import Checkout from './checkout'
+import orderService from '../Service/orderService'
 
 export default class index extends React.Component {
+    Model = {
+        payment: "",
+        total:0
+    }
+
     constructor() {
         super()
         this.state = {
             List: [],
             ListCart:[],
+            ListPayment:[],
             TotalProduct:0,
             EstimatePrice:0,
-            ShowModal:false
+            ShowModal:false,
+            Model:this.Model
         }
     }
+
     loadList = async () => {
         const respon = await productService.getAlldata()
+        const responPayment = await orderService.getPay()
         if (respon.success) {
             this.setState({
                 List: respon.result,
+                ListPayment:responPayment.result
             })
         }
-        console.log(this.state.List)
+        console.log(this.state.ListPayment)
     }
+
     incrementTotal = ()=>{
         this.setState({
             TotalProduct:this.state.TotalProduct+1
@@ -39,16 +51,24 @@ export default class index extends React.Component {
     }
 
     incrementPrice = (price)=>{
-        console.log(price)
+        
         this.setState({
-            EstimatePrice : this.state.EstimatePrice +price
+            EstimatePrice : this.state.EstimatePrice +price,
+            Model: {
+                ...this.state.Model,
+                ["total"]: this.state.EstimatePrice +price
+            }
         })
     }
 
     decrementPrice = (price)=>{
         if (this.state.EstimatePrice!=0) {
             this.setState({
-                EstimatePrice : this.state.EstimatePrice -price
+                EstimatePrice : this.state.EstimatePrice -price,
+                Model: {
+                    ...this.state.Model,
+                    ["total"]: this.state.EstimatePrice -price
+                }
             })    
         }
     }
@@ -71,10 +91,40 @@ export default class index extends React.Component {
         })
     }
 
+    changeHandler = field => ({ target: { value } }) => {
+        this.setState({
+            Model: {
+                ...this.state.Model,
+                [field]: value
+            }
+        })
+
+    }
+    
+    orderHandler = async () => {
+        let data = {
+            "header":this.state.Model,
+            "details":this.state.ListCart
+        }
+        console.log(data)
+        const respon = await orderService.addData(data)
+        console.log(respon)
+        if (respon.success) {
+            alert("Success Save Data")
+            this.setState({
+                Model: this.Model,
+                ShowModal: false
+            })
+            this.loadList()
+        }
+    }
+
+
     render() {
-        const { List,TotalProduct,EstimatePrice,ListCart,ShowModal } = this.state
+        const { List,TotalProduct,EstimatePrice,ListCart,ShowModal,ListPayment,Model } = this.state
         return (
             <div>
+                {JSON.stringify(this.state.Model)}
                 <div class = "row">
                 <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box">
@@ -116,7 +166,8 @@ export default class index extends React.Component {
                              decrementTotal={this.deccrementTotal}
                              incrementPrice={this.incrementPrice}
                              decrementPrice={this.decrementPrice}
-                             ListCart={ListCart}/>   
+                             ListCart={ListCart}
+                             />   
                             )
                         })
                     }
@@ -126,6 +177,10 @@ export default class index extends React.Component {
                 ListCart={ListCart}
                 EstimatePrice={EstimatePrice}
                 TotalProduct={TotalProduct}
+                orderHandler={this.orderHandler}
+                changeHandler={this.changeHandler}
+                Model={Model}
+                ListPayment={ListPayment}
                 />
             </div>
         )

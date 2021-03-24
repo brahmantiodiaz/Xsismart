@@ -29,6 +29,7 @@ server.use(cors.actual)
 require('./service/categoryService')(server,global.config)
 require('./service/variantService')(server,global.config)
 require('./service/productService')(server,global.config)
+require('./service/orderService')(server,global.config)
 server.get('/api/example', (req, res) => {
     res.send(200, {
         data: {

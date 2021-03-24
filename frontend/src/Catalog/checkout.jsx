@@ -8,7 +8,7 @@ export default class checkout extends React.Component {
         }
     }
     render() {
-        const { ShowModal, cancelHandler, ListCart, EstimatePrice, TotalProduct } = this.props
+        const { ShowModal, cancelHandler, ListCart, EstimatePrice, TotalProduct, orderHandler, changeHandler, ListPayment,Model } = this.props
         const { date } = this.state
         return (
             <div>
@@ -19,15 +19,15 @@ export default class checkout extends React.Component {
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                    <div class="row">
-                                <div class="col-12">
-                                    <h5>
-                                        <i class="fas fa-globe"></i> Xsismart, Inc.
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>
+                                    <i class="fas fa-globe"></i> Xsismart, Inc.
                                         <small class="float-right">Date: {date}</small>
-                                    </h5>
-                                    
-                                </div>
+                                </h5>
+
                             </div>
+                        </div>
                         <div class="col-12 table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -59,17 +59,21 @@ export default class checkout extends React.Component {
                         <div class="row">
                             <div class="col-6">
                                 <p class="lead">Payment Methods:</p>
-                                <select class="form-control" aria-label="Default select example">
+                                <select class="form-control" value={Model._id} onChange={changeHandler('payment')}>
                                     <option selected hidden>Payment</option>
-                                    <option value="Gopay">Gopay</option>
-                                    <option value="Ovo">Ovo</option>
-                                    <option value="Dana">Dana</option>
+                                    {
+                                        ListPayment.map(data => {
+                                            return (
+                                                <option value={data._id}>{data.name}</option>
+                                            )
+                                        })
+                                    }
                                 </select>
                                 <p class="text-muted well well-sm shadow-none" >
                                 </p>
                             </div>
                             <div class="col-6">
-                                {/* <p class="lead">{date}</p> */}
+                                <p class="lead">Amount</p>
 
                                 <div class="table-responsive">
                                     <table class="table">
@@ -88,7 +92,7 @@ export default class checkout extends React.Component {
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button type="button" class="btn btn-primary" >Checkout</button>
+                        <button type="button" class="btn btn-primary" onClick={orderHandler}>Checkout</button>
                         <button type="button" class="btn btn-default" onClick={cancelHandler}>Cancel</button>
                     </Modal.Footer>
                 </Modal>
