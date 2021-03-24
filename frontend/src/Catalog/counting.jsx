@@ -29,7 +29,7 @@ export default class catalogForm extends React.Component {
         const {count}=this.state
         return (
                 <div class="col-sm-3 card card-widget widget-user">
-                    <div class="widget-user-header bg-primary">
+                    <div class="widget-user-header bg-info">
                         <h3 class="widget-user-username">{data.description}</h3>
                         <h5 class="widget-user-desc">{data.price}</h5>
                     </div>
