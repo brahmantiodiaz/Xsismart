@@ -6,6 +6,7 @@ import IndexProduct from './Product/index'
 import Header from './Layout/header'
 import Sidebar from './Layout/sidebar'
 import IndexCatalog from './Catalog/index'
+import IndexOrder from './Order/index'
 import {
     BrowserRouter as Router,
     Switch,
@@ -39,6 +40,9 @@ class App extends React.Component {
                                 </Route>
                                 <Route path="/catalog">
                                     <IndexCatalog />
+                                </Route>
+                                <Route path="/myorder">
+                                    <IndexOrder />
                                 </Route>
                                 <Route path="/">
                                     <IndexLatihan />

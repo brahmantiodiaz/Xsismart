@@ -27,6 +27,38 @@ module.exports = exports = function (server, config) {
         })
     })
 
+
+    server.get('/api/myorder', (req, res) => {
+        Mongoclient.connect(config.dbconn, async function (err, db) {
+            if (err) {
+                var error = new Error(err.message)
+                return error
+            }
+            dbo = db.db(config.dbname)
+            await dbo.collection('OrderHeader').aggregate([
+                {$lookup : {
+                    from : "OrderDetails",
+                    localField: "_id",
+                    foreignField : "orderheader_id",
+                    as : "details"
+                    }},{$match : {"active" : true}}
+                ])
+            .toArray(function (error, response) {
+                if (err) {
+                    res.send(400, {
+                        success: false,
+                        result: error
+                    })
+                }
+                res.send(200, {
+                    success: true,
+                    result: response
+                })
+                db.close()
+            })
+        })
+    })
+
     server.post('/api/order', (req, res, next) => {
         // console.log(req.body)
         var entity = req.body
@@ -60,6 +92,11 @@ module.exports = exports = function (server, config) {
                         details.forEach(order => {
                             order.orderheader_id = ObjectId(header._id);
                             order.product_id = ObjectId(order.product_id);
+                            order.active = true
+                            order.create_by = "system"
+                            order.create_at = new Date()
+                            order.update_by = ""
+                            order.update_at = new Date()
                             // TimeStamp(order, req);
                         })
                         dbo.collection('OrderDetails').insertMany(details, (errDetail, resDetail) => {

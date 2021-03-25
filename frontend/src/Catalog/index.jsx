@@ -101,7 +101,8 @@ export default class index extends React.Component {
     }
 
     resetHandler = () => {
-        window.location='http://localhost:8000/catalog'
+        // window.location='catalog'
+        window.location.reload()
     }
     
     orderHandler = async () => {

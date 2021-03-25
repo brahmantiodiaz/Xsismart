@@ -2,6 +2,22 @@ import axios from 'axios'
 import { config } from '../Configure/config'
 
 const orderService ={
+    getOrder : () =>{
+        const result = axios.get(config.apiUrl + '/myorder')
+        .then(respon =>{
+            return{
+                success : respon.data.success,
+                result : respon.data.result
+            }
+        })
+        .catch(error => {
+            return {
+                success:false,
+                error:error
+            }
+        })
+        return result
+    },
     getPay : () =>{
         const result = axios.get(config.apiUrl + '/payment')
         .then(respon =>{
