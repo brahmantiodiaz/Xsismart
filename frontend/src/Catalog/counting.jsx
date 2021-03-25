@@ -12,11 +12,11 @@ export default class counting extends React.Component {
         const { data, ListCart } = this.props
         let qty = 0
         let addProduct = {}
-        let index = ListCart.findIndex(x => x._id === data._id)
+        let index = ListCart.findIndex(x => x.product_id === data._id)
         if (index == -1) {
             qty += 1
             addProduct = {
-                "_id": data._id,
+                "product_id": data._id,
                 "nama": data.name,
                 "price": data.price,
                 "qty": qty,
@@ -41,7 +41,7 @@ export default class counting extends React.Component {
         const { data, ListCart } = this.props
         const { count } = this.state
         if (count != 0) {
-            let index = ListCart.findIndex(x => x._id === data._id)
+            let index = ListCart.findIndex(x => x.product_id === data._id)
             if (index != -1) {
                 ListCart[index].qty -= 1
                 ListCart[index].total -= data.price

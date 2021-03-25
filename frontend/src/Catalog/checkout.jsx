@@ -59,7 +59,7 @@ export default class checkout extends React.Component {
                         <div class="row">
                             <div class="col-6">
                                 <p class="lead">Payment Methods:</p>
-                                <select class="form-control" value={Model._id} onChange={changeHandler('payment')}>
+                                <select class="form-control" value={Model.payment} onChange={changeHandler('payment')}>
                                     <option selected hidden>Payment</option>
                                     {
                                         ListPayment.map(data => {

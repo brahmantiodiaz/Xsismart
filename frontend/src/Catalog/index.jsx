@@ -98,7 +98,10 @@ export default class index extends React.Component {
                 [field]: value
             }
         })
+    }
 
+    resetHandler = () => {
+        window.location='http://localhost:8000/catalog'
     }
     
     orderHandler = async () => {
@@ -110,12 +113,8 @@ export default class index extends React.Component {
         const respon = await orderService.addData(data)
         console.log(respon)
         if (respon.success) {
-            alert("Success Save Data")
-            this.setState({
-                Model: this.Model,
-                ShowModal: false
-            })
-            this.loadList()
+            alert("Payment Will Be Process")
+            this.resetHandler()
         }
     }
 
