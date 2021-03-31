@@ -21,7 +21,7 @@ export default class index extends React.Component {
         this.state = {
             List: [],
             Model: this.CategoryModel,
-            Mode: "",
+            Mode: "tambah",
             ShowModal: false,
             errors: {}
 
@@ -185,6 +185,7 @@ export default class index extends React.Component {
                     ShowModal={this.state.ShowModal}
                     cancelHandler={this.cancelHandler}
                     errors={errors}
+                    Mode={this.state.Mode}
                 />
             </div>
         )

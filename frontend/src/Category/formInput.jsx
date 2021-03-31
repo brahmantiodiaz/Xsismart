@@ -2,12 +2,12 @@ import React from 'react'
 import { Modal } from 'react-bootstrap'
 export default class formInput extends React.Component {
   render() {
-    const { changeHandler, checkedHandler, saveHandler, Model,ShowModal,cancelHandler,errors } = this.props
+    const { changeHandler, checkedHandler, saveHandler, Model,ShowModal,cancelHandler,errors,Mode } = this.props
     return (
       <div>
         <Modal show={ShowModal} onHide={cancelHandler}>
           <Modal.Header closeButton>
-            <Modal.Title>Form Input</Modal.Title>
+            <Modal.Title>{Mode}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div class="mb-3">

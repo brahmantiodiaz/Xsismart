@@ -17,6 +17,7 @@ export default class index extends React.Component {
                 ListHeader: respon.result
             })
         }
+        console.log(respon)
         console.log(this.state.ListHeader)
     }
 
@@ -40,7 +41,7 @@ export default class index extends React.Component {
                                         <h3 class="card-title">{data.no_invoice}</h3>
 
                                         <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" ><i class="fas fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>

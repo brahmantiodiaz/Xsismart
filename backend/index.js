@@ -12,6 +12,7 @@ server.use(restify.plugins.bodyParser())
 server.use(restify.plugins.queryParser())
 
 global.config = require('./config/dbconfig')
+global.verifyToken = require('./config/verifyToken')
 
 //config cors
 const cors = corsMiddleware({
@@ -30,6 +31,8 @@ require('./service/categoryService')(server,global.config)
 require('./service/variantService')(server,global.config)
 require('./service/productService')(server,global.config)
 require('./service/orderService')(server,global.config)
+require('./service/loginService')(server,global.config)
+
 server.get('/api/example', (req, res) => {
     res.send(200, {
         data: {

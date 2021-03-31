@@ -99,7 +99,19 @@ const productService ={
         return result
     },
     getAlldata : () =>{
-        const result = axios.get(config.apiUrl + '/product')
+        var headers = {
+            "x-access-token":`${localStorage.getItem(config.token)}`
+        }
+        console.log(headers)
+
+        if (headers['x-access-token']=="null") {
+            return{
+                success:false,
+                result:"no token"
+            }
+        }
+
+        const result = axios.get(config.apiUrl + '/product',{headers})
         .then(respon =>{
             return{
                 success : respon.data.success,

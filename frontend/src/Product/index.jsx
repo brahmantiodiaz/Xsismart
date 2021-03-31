@@ -5,6 +5,7 @@ import FormInput from './formInput'
 import categoryService from '../Service/categoryService'
 import productService from '../Service/productService'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import { storage } from '../Firebase'
 
 export default class index extends React.Component {
     ProductModel = {
@@ -38,8 +39,60 @@ export default class index extends React.Component {
                 page: '1',
                 pagesize: '5'
             },
-            TotalPage:0
+            TotalPage: 0,
+            img: null,
+            imgname:"Choose Image",
+            progress:0
         }
+    }
+
+    imageHandler = (e) => {
+        // var poto = e.target.files[0]
+        // console.log(poto)
+        if (e.target.files[0]) {
+            this.setState({
+                img: e.target.files[0],
+                imgname :e.target.files[0].name
+            })
+            // () => { console.log(this.state.img) }
+
+        }
+
+        // console.log(this.state.img)
+    }
+
+    uploadHandler = () => {
+        const { img,progress } = this.state
+        console.log(img)
+        const uploadTask = storage.ref(`images/${img.name}`).put(img);
+        uploadTask.on(
+            "state_changed",
+            snapshot => {
+                const test = Math.round(snapshot.bytesTransferred/snapshot.totalBytes)*100
+                console.log(test)
+                this.setState({
+                    progress:test
+                })
+            },
+            error => {
+                console.log(error)
+            },
+            ()=>{
+                storage
+                .ref("images")
+                .child(img.name)
+                .getDownloadURL()
+                .then(url => {
+                    console.log(url)
+                    this.setState({
+                        Model: {
+                            ...this.state.Model,
+                            ['image']: url
+                        }
+                    })
+                })
+            }
+        )
     }
 
     loadList = async () => {
@@ -51,10 +104,10 @@ export default class index extends React.Component {
             this.setState({
                 List: respon.result,
                 ListCategory: responCategory.result,
-                TotalPage:Math.ceil(count/this.state.filter.pagesize)
+                TotalPage: Math.ceil(count / this.state.filter.pagesize)
             })
         }
-        console.log(this.state.TotalPage)
+        console.log(this.state.progress)
     }
 
 
@@ -134,7 +187,8 @@ export default class index extends React.Component {
     ModalHandler = () => {
         this.setState({
             ShowModal: true,
-            // Model: this.VariantModel
+            Model: this.ProductModel,
+            Mode:""
         })
     }
 
@@ -177,6 +231,11 @@ export default class index extends React.Component {
             errors["variant_id"] = "Cannot be empty";
         }
 
+        if (!fields["image"]) {
+            formIsValid = false;
+            errors["image"] = "Haven't Upload Photo";
+        }
+
         this.setState({ errors: errors });
         return formIsValid;
     }
@@ -190,7 +249,8 @@ export default class index extends React.Component {
                     this.setState({
                         Model: this.ProductModel,
                         Mode: "",
-                        ShowModal: false
+                        ShowModal: false,
+                        imgname:"Choose Image"
                     })
                     this.loadList()
                 }
@@ -200,7 +260,8 @@ export default class index extends React.Component {
                     alert("Success Save Data")
                     this.setState({
                         Model: this.ProductModel,
-                        ShowModal: false
+                        ShowModal: false,
+                        imgname:"Choose image"
                     })
                     this.loadList()
                 }
@@ -228,17 +289,17 @@ export default class index extends React.Component {
         }, () => this.loadList())
     }
 
-    renderPagination(){
+    renderPagination() {
         let item = []
         for (let number = 1; number <= this.state.TotalPage; number++) {
             item.push(
-                <PaginationItem key={number} active={number===this.state.filter}>
-                <PaginationLink onClick={() => this.changePageHandler(number)}>
-                    {number}                    
-                    </PaginationLink>    
+                <PaginationItem key={number} active={number === this.state.filter}>
+                    <PaginationLink onClick={() => this.changePageHandler(number)}>
+                        {number}
+                    </PaginationLink>
                 </PaginationItem>
             )
-            
+
         }
         return (
             <Pagination>
@@ -247,28 +308,31 @@ export default class index extends React.Component {
         )
     }
 
-    sortHandler = () =>{
+    sortHandler = () => {
         let sort = ''
-        sort = this.state.filter.order == '' ? '1':'-1'
-        sort = this.state.filter.order == '-1' ? '1':'-1'
-        
+        sort = this.state.filter.order == '' ? '1' : '-1'
+        sort = this.state.filter.order == '-1' ? '1' : '-1'
+
         this.setState({
-          filter : {
-              ...this.state.filter,
-              ['order']:sort
-          }  
-        },()=>this.loadList())
+            filter: {
+                ...this.state.filter,
+                ['order']: sort
+            }
+        }, () => this.loadList())
         console.log(this.state.filter)
     }
 
+
+
     render() {
         const { List, Model, ListCategory, ListVariant } = this.state
+        console.log(this.state.errors)
         return (
             <div class="container">
-                {JSON.stringify(this.state.Model)}
+                {/* {JSON.stringify(this.state.Model)} */}
 
                 <button class="btn btn-success" onClick={() => this.ModalHandler()}>Add</button>
-                {JSON.stringify(this.state.filter)}
+                {/* {JSON.stringify(this.state.filter)} */}
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Product Table</h3>
@@ -329,8 +393,8 @@ export default class index extends React.Component {
                                 }
                             </tbody>
                         </table>
-                        <div className= "float-right">
-                        {this.renderPagination()}
+                        <div className="float-right">
+                            {this.renderPagination()}
                         </div>
                     </div>
                     <FormInput
@@ -344,6 +408,10 @@ export default class index extends React.Component {
                         ListVariant={ListVariant}
                         saveHandler={this.saveHandler}
                         errors={this.state.errors}
+                        imageHandler={this.imageHandler}
+                        uploadHandler={this.uploadHandler}
+                        imgname={this.state.imgname}
+                        progress={this.state.progress}
 
                     />
                 </div>

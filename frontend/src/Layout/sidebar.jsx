@@ -1,11 +1,12 @@
 import React from 'react'
+import {config} from '../Configure/config'
 export default class Sidebar extends React.Component {
     render() {
 
         return (
             <div>
                 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-                    <a href="/" class="brand-link">
+                    <a href="/home" class="brand-link">
                         {/* <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"/> */}
                         <span class="brand-text font-weight-light">Xsis Mart</span>
                     </a>
@@ -16,7 +17,7 @@ export default class Sidebar extends React.Component {
                                 {/* <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"/> */}
                             </div>
                             <div class="info">
-                                <a href="#" class="d-block">DIAZ</a>
+                                <a href="https://github.com/brahmantiodiaz" class="d-block">Wellcome, {localStorage.getItem(config.username)}</a>
                             </div>
                         </div>
                         <nav class="mt-2">
@@ -31,7 +32,7 @@ export default class Sidebar extends React.Component {
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="./category" class="nav-link active">
+                                            <a href="./category" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>Category</p>
                                             </a>
@@ -58,7 +59,7 @@ export default class Sidebar extends React.Component {
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="./catalog" class="nav-link active">
+                                            <a href="./catalog" class="nav-link">
                                                 <i class="far fa-circle nav-icon"></i>
                                                 <p>catalog</p>
                                             </a>

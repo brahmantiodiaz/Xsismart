@@ -70,7 +70,7 @@ export default class counting extends React.Component {
                     <h5 class="widget-user-desc">{data.price}</h5>
                 </div>
                 <div class="widget-user-image">
-                    <img class="img-circle elevation-2" src={Photo} alt="User Avatar" />
+                    <img src={data.image} alt="firebase-image" />
                 </div>
                 <div class="card-footer">
                     <div class="row">

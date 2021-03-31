@@ -5,7 +5,7 @@ const Model = require('../model/productModel')
 let dbo
 
 module.exports = exports = function (server, config) {
-    server.get('/api/product', (req, res) => {
+    server.get('/api/product', verifyToken, (req, res) => {
         Mongoclient.connect(config.dbconn, async function (err, db) {
             if (err) {
                 var error = new Error(err.message)
@@ -35,6 +35,7 @@ module.exports = exports = function (server, config) {
                         "name": 1,
                         "price": 1,
                         "stock": 1,
+                        "image":1,
                         "description": 1,
                         "variant_name": "$variant.name",
                         "category_name": "$category.name",

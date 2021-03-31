@@ -1,12 +1,9 @@
 import React from 'react'
-import IndexLatihan from './latihan/'
-import IndexCategory from './Category/index'
-import IndexVariant from './Variant/index'
-import IndexProduct from './Product/index'
-import Header from './Layout/header'
-import Sidebar from './Layout/sidebar'
-import IndexCatalog from './Catalog/index'
-import IndexOrder from './Order/index'
+import Test from './latihan/test'
+import {config} from './Configure/config'
+import Login from './Login/index'
+import Wellcome from './Wellcome'
+import Register from './Login/register'
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,43 +11,32 @@ import {
     Link
 } from "react-router-dom";
 
-class App extends React.Component {
+
+class App extends React.Component {    
     render() {
         return (
             <div >
                 <div class="wrapper">
-                    {/* <h3>Hello From App Component</h3> */}
-                    {/* <IndexCategory /> */}
-                    {/* <IndexVariant /> */}
                     <Router>
-                        <Header />
-                        <Sidebar />
-                        <div class="content-wrapper">
-                            <section class = "content">
-                            <div class = "container-fluid">
                             <Switch>
-                                <Route path="/category">
-                                    <IndexCategory />
-                                </Route>
-                                <Route path="/variant">
-                                    <IndexVariant />
-                                </Route>
-                                <Route path="/product">
-                                    <IndexProduct />
-                                </Route>
-                                <Route path="/catalog">
-                                    <IndexCatalog />
-                                </Route>
-                                <Route path="/myorder">
-                                    <IndexOrder />
-                                </Route>
-                                <Route path="/">
-                                    <IndexLatihan />
-                                </Route>
+                            {!localStorage.getItem(config.token)?
+                            <>
+                                <Route path="/register" component={Register} />
+                                <Route exact path="/" component={Login} />
+                            </>
+                            :
+                            <>
+                                {/* <Route exact path="/register" component={Register} /> */}
+                                <Route exact path="/" component={Test} />
+                                <Wellcome />
+                            </>
+                            }
+                                {/* <Route path="/register">
+                                    <Register />
+                                </Route> 
+                                <Route exact path="/" component={Login} />
+                                    <Wellcome /> */}
                             </Switch>
-                            </div>
-                            </section>
-                        </div>
                     </Router>
 
                 </div>

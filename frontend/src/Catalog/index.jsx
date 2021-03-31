@@ -110,9 +110,7 @@ export default class index extends React.Component {
             "header":this.state.Model,
             "details":this.state.ListCart
         }
-        console.log(data)
         const respon = await orderService.addData(data)
-        console.log(respon)
         if (respon.success) {
             alert("Payment Will Be Process")
             this.resetHandler()
@@ -124,7 +122,7 @@ export default class index extends React.Component {
         const { List,TotalProduct,EstimatePrice,ListCart,ShowModal,ListPayment,Model } = this.state
         return (
             <div>
-                {JSON.stringify(this.state.Model)}
+                {/* {JSON.stringify(this.state.Model)} */}
                 <div class = "row">
                 <div class="col-md-4 col-sm-6 col-12">
             <div class="info-box">
@@ -151,7 +149,7 @@ export default class index extends React.Component {
               <span class="info-box-icon bg-danger" onClick={this.ModalHandler}><i class="fas fa-shopping-cart"></i></span>
               <div class="info-box-content">
                 <span class="info-box-text font-weight-bold">Checkout</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-number"></span>
               </div>
             </div>
           </div>
